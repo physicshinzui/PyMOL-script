@@ -80,19 +80,16 @@ class Builder():
 
         cmd.save(f"{outpdb}")
 
-    def cap(self, in_pdb_file, nter_cap="ace", cter_cap="nme", outpdb='capped') -> None:
+    def cap(self, object_name, nter_cap="ace", cter_cap="nme", outpdb='capped') -> None:
         """
         Args: 
-            pdb_file: PDB file name (String)
+            object_name: String (e.g. an object of chain A)
             nter_cap: "ace"
             cter_cap: "nme" or "nhh"
             outpdb: 'capped'
         """
         # NOTE: Single chain is ASSUMED in this function. 
-        
-        object_name = "pdb_obj"
-        cmd.load(in_pdb_file, object_name)
-        
+                
         def get_first_last_residue_info(object_name):
             atoms = cmd.get_model(object_name)
             residues = [(atm.resn, atm.resi) for atm in atoms.atom]
@@ -143,6 +140,9 @@ def main():
         builder.polymerize(sequence=args.seq, object_name="poly", outpdb="peptide.pdb")
     
     elif args.mode == "cap":
-        builder.cap(in_pdb_file=args.pdb, outpdb="capped")
+        object_name = "pdb_obj"
+        cmd.load(args.pdb, object_name)
+        
+        builder.cap(object_name=object_name, outpdb="capped")
 
 main()
