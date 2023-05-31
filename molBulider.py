@@ -99,7 +99,7 @@ class Builder():
             print(residues[0], residues[-1])
             first_resn, first_resi = residues[0]
             last_resn, last_resi = residues[-1]
-            # NOTE: This error handling is not needed because `cmd.remove("not polymer")` has been done before.
+
             if first_resn.upper() == "ACE": 
                 sys.exit("The N-terminus has already been capped by ACE.")
             if last_resn.upper() in ["NME", "NHH", "NHE", "NH2"]: 
@@ -116,6 +116,7 @@ class Builder():
         # Their info is used to add caps to them in subsequent lines.  
         (first_resn, first_resi), (last_resn, last_resi) = get_first_last_residue_info(object_name)
 
+        # TODO: I wanna put this condition: If the selection below returns zero atom, then raise an error. 
         # nter_cap is conneted to the object pk1 (Nitrogen)         
         cmd.edit(object_name+f" and resi {first_resi} and name N") # pk1 is made here 
         editor.attach_amino_acid("pk1", nter_cap)
