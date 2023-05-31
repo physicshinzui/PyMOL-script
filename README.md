@@ -9,8 +9,13 @@ Written by Shinji Iida
 
 ### Case 1. Polymerize an amino-acid residues.
 ```
-python molBuilder --seq "JAAAO" --mode polymerize
+python molBuilder --seq aa_sequence --mode polymerize
 ```
+`aa_sequence` is written in terms of one-letter amino acid: e.g., `JAAAAAO`, 
+where
+- 'J' : Acetyl group 
+- 'O' : N-methyl group
+- 'U' : NH2 (amin group)
 
 ### Case 2. Acetyl and N-methyl capping at the terminus
 ```
