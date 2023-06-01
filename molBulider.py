@@ -34,7 +34,8 @@ class Builder():
         }
 
         self.check_pymol_version()
-
+        cmd.set('pdb_use_ter_records', 0) # suppress TER record
+        
     @staticmethod
     def check_pymol_version() -> None:
         current_version = pymol.cmd.get_version()[0]
