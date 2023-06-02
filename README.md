@@ -1,4 +1,4 @@
-# AutoTerminusCap
+# pyMolBuilder
 Written by Shinji Iida
 
 ## Tested environment
@@ -7,15 +7,16 @@ Written by Shinji Iida
 
 ## How to use 
 
-### Case 1. Polymerize an amino-acid residues.
+### Case 1. Fabricate a peptide with terminal capping.
 ```
-python molBuilder --seq aa_sequence --mode polymerize
+python molBuilder --seq aa_sequence --mode fab
 ```
-`aa_sequence` is written in terms of one-letter amino acid: e.g., `JAAAAAO`, 
-where
-- 'J' : Acetyl group 
-- 'O' : N-methyl group
-- 'U' : NH2 (amin group)
+`aa_sequence` is written in terms of one-letter amino acid: e.g., `BAAAAAZ`.
+
+**Terminal types**:
+- 'B' : Acetyl group 
+- 'Z' : N-methyl group
+- 'X' : NH2 (amin group)
 
 ### Case 2. Acetyl and N-methyl capping at the terminus
 ```
