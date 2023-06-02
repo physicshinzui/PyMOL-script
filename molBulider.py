@@ -35,7 +35,7 @@ class Builder():
 
         self.check_pymol_version()
         cmd.set('pdb_use_ter_records', 0) # suppress TER record
-        
+
     @staticmethod
     def check_pymol_version() -> None:
         current_version = pymol.cmd.get_version()[0]
@@ -44,6 +44,8 @@ class Builder():
         if current_version != tested_version:
             print(f"NOTE: The current version ({current_version}) is not the tested version ({tested_version})")
 
+
+    #NOTE: This is dupulicated. Use `fabricate`. 
     def polymerize(self, sequence, object_name, first_residue="1", outpdb='peptide.pdb') -> None:
         """
         Args: 
@@ -81,6 +83,21 @@ class Builder():
 
         cmd.save(f"{outpdb}")
 
+    def fabricate(self, sequence, outpdb='peptide.pdb', retain_id='off', ss=4, hydrogen=True):
+        """
+        Args: 
+            sequence: sequence in one-letter code (NOTE: B=ACE, Z=NME, X=NHH)
+            ss: 1=alpha helix, 2=antiparallel beta, 3=parallel beta, 4=flat
+        """
+        editor._aa_codes['X'] = 'nhh' 
+        # By default, PyMOL does not support the one letter representation of NHH, so I put it here to enable us to cap the C-term by it.
+
+        cmd.set('pdb_retain_ids', retain_id) 
+        # NOTE: if retain_id is on, then the ace and nme/nhh caps are put at the end of the PDB file. 
+        cmd.fab(sequence, ss=ss)
+        if not hydrogen: cmd.remove("hydrogens")
+        cmd.save(outpdb)
+                 
     def cap(self, object_name, nter_cap="ace", cter_cap="nme") -> None:
         """
         Args: 
@@ -137,14 +154,15 @@ def main():
     grp.add_argument("--seq")
     grp.add_argument("--pdb")
     #p.add_argument("-o", "--outpdb")
-    p.add_argument("--mode", required=True, choices=["polymerize","cap"])
+    p.add_argument("--mode", required=True, choices=["fab","cap"])
     args = p.parse_args()       
 
     builder = Builder()
     
-    if args.mode == "polymerize":
-        builder.polymerize(sequence=args.seq, object_name="poly", outpdb="peptide.pdb")
-    
+    if args.mode == "fab":
+        #builder.polymerize(sequence=args.seq, object_name="poly", outpdb="peptide.pdb")
+        builder.fabricate(sequence=args.seq)
+
     elif args.mode == "cap":
         object_name = "pdb_obj"
         cmd.load(args.pdb, object_name)
