@@ -28,9 +28,9 @@ class Builder():
         'V' : 'val',
         'W' : 'trp',
         'Y' : 'tyr',
-        'J' : 'ace', # Acetyl group 
-        'O' : 'nme', # N-methyl group
-        'U' : 'nhh'  # NH2 (amin group)
+        'B' : 'ace', # Acetyl group 
+        'Z' : 'nme', # N-methyl group
+        'X' : 'nhh'  # NH2 (amin group)
         }
 
         self.check_pymol_version()
@@ -143,9 +143,9 @@ class Builder():
         cmd.edit(cter_sele) # pk1 is updated here 
         editor.attach_amino_acid("pk1", cter_cap)
     
-        cmd.unpick()
-        cmd.set_wizard()
-        cmd.refresh_wizard()
+        # cmd.unpick()
+        # cmd.set_wizard()
+        # cmd.refresh_wizard()
 
 def main():
     # TODO: The arguments are in a mess at the moment, so I need to consider what arguments should come.
@@ -153,7 +153,7 @@ def main():
     grp = p.add_mutually_exclusive_group(required=True)
     grp.add_argument("--seq")
     grp.add_argument("--pdb")
-    #p.add_argument("-o", "--outpdb")
+    p.add_argument("-o", "--outpdb", defalut="peptide.pdb")
     p.add_argument("--mode", required=True, choices=["fab","cap"])
     args = p.parse_args()       
 
@@ -161,7 +161,7 @@ def main():
     
     if args.mode == "fab":
         #builder.polymerize(sequence=args.seq, object_name="poly", outpdb="peptide.pdb")
-        builder.fabricate(sequence=args.seq)
+        builder.fabricate(sequence=args.seq, outpdb=arg.outpdb)
 
     elif args.mode == "cap":
         object_name = "pdb_obj"
@@ -175,9 +175,11 @@ def main():
         else:
             # Capping for each chain
             for i, chain in enumerate(chains): 
-                chain_obj = f"chain {chain}"
+                chain_obj = f"ch_{chain}"
                 cmd.select(chain_obj, f"chain {chain}")
+                print("chain_obj=", chain_obj)
                 builder.cap(object_name=chain_obj)
+                  
             #TODO: The first round chain i.e., chain A cannot be capped for some reason. Why? 
             cmd.save(f"capped.pdb")
 
