@@ -153,7 +153,7 @@ def main():
     grp = p.add_mutually_exclusive_group(required=True)
     grp.add_argument("--seq")
     grp.add_argument("--pdb")
-    p.add_argument("-o", "--outpdb", defalut="peptide.pdb")
+    p.add_argument("-o", "--outpdb", default="peptide.pdb")
     p.add_argument("--mode", required=True, choices=["fab","cap"])
     args = p.parse_args()       
 
