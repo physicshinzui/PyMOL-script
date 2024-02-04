@@ -22,7 +22,7 @@ python molBuilder --seq aa_sequence --mode fab
 ```
 python molBuilder --pdb pdb_file_name --mode cap
 ```
-**NOTE**
-- If the C atom of the backbone at the C-terminus does not exist in the iput PDB file, this program does not add NME to the end. 
-- Likewise, the N atom of the backbone at the N-terminus does not exist, it does not add ACE.
-- This process will not raise an error.
+>[!NOTE]
+> - If the C atom of the backbone at the C-terminus does not exist in the iput PDB file, this program does not add NME to the end. 
+> - Likewise, the N atom of the backbone at the N-terminus does not exist, it does not add ACE.
+> - This process will not raise an error.
