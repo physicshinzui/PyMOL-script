@@ -161,7 +161,7 @@ def main():
     
     if args.mode == "fab":
         #builder.polymerize(sequence=args.seq, object_name="poly", outpdb="peptide.pdb")
-        builder.fabricate(sequence=args.seq, outpdb=arg.outpdb)
+        builder.fabricate(sequence=args.seq, outpdb=args.outpdb)
 
     elif args.mode == "cap":
         object_name = "pdb_obj"
